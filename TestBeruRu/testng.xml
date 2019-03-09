@@ -5,9 +5,13 @@
   <parameter name = "loginParam" value = "testBeruRu@yandex.ru" />
   <parameter name = "passwordParam" value = "kulikandlake" />
   <parameter name = "newCityParam" value = "Хвалынск" />
+  <parameter name = "productParam" value = "электрические зубные щетки" />
+  <parameter name = "priceFromParam" value = "999" />
+  <parameter name = "priceToParam" value = "1999" />
     <classes>    
-      <class name="common.tests.LoginTest"/>  
+      <class name = "common.tests.LoginTest"/>
       <class name = "common.tests.ChangeCityTest"/>
+      <class name = "common.tests.BuyTest"/>
     </classes>
   </test>
 </suite>

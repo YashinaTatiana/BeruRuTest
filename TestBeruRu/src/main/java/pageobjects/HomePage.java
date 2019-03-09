@@ -12,6 +12,7 @@ import pageobjects.SettingsPage;
 
 import pageobjects.BasePage;
 import pageobjects.SignInPage;
+import pageobjects.SearchPage;
 
 public class HomePage extends BasePage {
 	
@@ -23,7 +24,7 @@ public class HomePage extends BasePage {
 	private By cancelBy = By.xpath("//div[@class='modal__cell']/div/div");
 	
 	// Локаторы для второго теста
-    // Ссылка на изменение города
+	// Ссылка на изменение города
 	private By cityLinkBy = By.xpath("//span[text()='Регион: ']//span[@class='link__inner']");	
 	// Поле ввода нового города
 	private By inputCityBy = By.cssSelector("form.region-select-form input");	
@@ -32,9 +33,14 @@ public class HomePage extends BasePage {
 	// Кнопка подтверждения выбора нового города
 	private By submitCityBy = By.cssSelector("form.region-select-form button");
 	// Категория "Настройки" во всплывающем окне "Мой профиль"
-	private By settingsBy = By.className("header2-user-menu__item_type_settings");		
-		
+	private By settingsBy = By.className("header2-user-menu__item_type_settings");
 	
+	// Локаторы для третьего теста
+	// Локатор для поискового поля 
+	private By searchBoxBy = By.id("header-search");
+	// Кнопка "Найти" при поиске
+	private By searchBtnBy = By.cssSelector("form.header2__search button");	
+		
 	public HomePage(WebDriver driver, WebDriverWait wait) {
 		super(driver, wait);
 		this.url = "https://beru.ru/";
@@ -91,4 +97,12 @@ public class HomePage extends BasePage {
 		click(settingsBy);
 		return new SettingsPage(driver, wait);
 	}
+	
+	// Метод поиска товара
+	public SearchPage search (String searchValue) {
+		enterText(searchBoxBy, searchValue);
+		click(searchBtnBy);
+		return new SearchPage(driver, wait);
+	}
+	
 }
