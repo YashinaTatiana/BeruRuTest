@@ -20,8 +20,8 @@ public class LoginTest extends BaseTest {
 		SignInPage signInPage = homePage.clickSignInBtn();
 		signInPage.signIn(login, password);
 		
-		Assert.assertTrue(homePage.phraseChange());			
-	    Assert.assertEquals(homePage.getLogin(), login);
+		Assert.assertTrue(homePage.phraseChange());
+		Assert.assertEquals(homePage.getLogin(), login);
 	}
 	
 }
