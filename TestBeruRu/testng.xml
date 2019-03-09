@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Example test run">
-  <test name="Login Test">
+  <test name="Beru.ru test">
+  <parameter name = "loginParam" value = "testBeruRu@yandex.ru" />
+  <parameter name = "passwordParam" value = "kulikandlake" />
+  <parameter name = "newCityParam" value = "Хвалынск" />
     <classes>    
       <class name="common.tests.LoginTest"/>  
+      <class name = "common.tests.ChangeCityTest"/>
     </classes>
   </test>
 </suite>

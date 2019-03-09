@@ -45,7 +45,6 @@ public class BasePage {
 	}
 	
 	public void scrollTo(WebElement element) {
-		System.out.println("Scrolling to..." + element.getText());
 		((JavascriptExecutor) driver).executeScript(
             "arguments[0].scrollIntoView();", element);
 	}
