@@ -26,7 +26,7 @@ public class ChangeCityTest extends BaseTest {
 			System.out.println("Error");
 		}
 		
-  	   String currentCity = homePage.getCity();
+		String currentCity = homePage.getCity();
 		Assert.assertTrue("City name hasn't changed", currentCity.contains(newCity));
 			  
 		SignInPage signInPage = homePage.clickSignInBtn();

@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SettingsPage extends BasePage {
-	
 	//	Локатор для получения названия города на странице "Настройки"
     private By cityBy = By.className("link__inner");
 	
