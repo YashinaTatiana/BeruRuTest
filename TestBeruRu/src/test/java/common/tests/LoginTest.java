@@ -4,6 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import io.qameta.allure.Step;
 import pageobjects.HomePage;
 import pageobjects.SignInPage;
 
@@ -20,8 +21,17 @@ public class LoginTest extends BaseTest {
 		SignInPage signInPage = homePage.clickSignInBtn();
 		signInPage.signIn(login, password);
 		
-		Assert.assertTrue(homePage.phraseChange());
-		Assert.assertEquals(homePage.getLogin(), login);
+		checkLogin(homePage, login);
+		checkButtonText(homePage);
+	}	
+	
+	@Step("Проверка, что на главной странице отображается логин")
+	public void checkLogin(HomePage homePage, String login) {
+		Assert.assertEquals(homePage.getLogin(), login);		
 	}
 	
+	@Step("Проверка, что кнопка “Войти в аккаунт” сменилась на “Мой профиль”")
+	public void checkButtonText(HomePage homePage) {
+		Assert.assertTrue(homePage.phraseChange());
+	}
 }
