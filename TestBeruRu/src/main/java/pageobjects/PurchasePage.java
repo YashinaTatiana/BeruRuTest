@@ -20,21 +20,24 @@ public class PurchasePage extends BasePage{
 	private By discountBy = By.xpath("//span[contains(text(),'Скидка')]/folowing-sibling::span");
 	// Значение поля "Итого"
 	private By priceBy = By.xpath("//span[text()='Итого']/following-sibling::span");	
-	
+	// Стоимость товара с учетом скидки
 	private Double curPrice;
 	
 	public PurchasePage(WebDriver driver, WebDriverWait wait) {
 		super(driver, wait);
 	}
 	
+	// Метод получения цены 
 	public double getPrice(By by) {
 		String priceStr = this.read(by).replaceAll("[^0-9]", "");
-		if (priceStr.isEmpty())
+		if (priceStr.isEmpty()) {
 			return 0;
-		else
+		} else {
 			return Double.parseDouble(priceStr);
+		}
 	}
 	
+	// Метод, проверяющий, что итоговая цена равна <стоимость щетки> + <доставка>
 	public Boolean checkPrice() {
 		double productPrice = getPrice(productCostBy);
 		double deliveryPrice = getPrice(deliveryCostBy);
@@ -43,12 +46,13 @@ public class PurchasePage extends BasePage{
 			 discount = getPrice(discountBy);
 		} catch (Exception e) { };
 		 
-		curPrice = productPrice - discount; 
-		
+		// Цена товара с учетом скидки
+		curPrice = productPrice - discount; 		
 		double wholeSum = getPrice(priceBy);
 		return wholeSum ==  (deliveryPrice + curPrice);
 	}
 	
+	// Метод добавления щеток, необходимых до бесплатной доставки
 	public void addProducts(String priceTo) {
 		double product =  getPrice(productCostBy);
 		double maxPrice = Double.parseDouble(priceTo);		
@@ -59,9 +63,15 @@ public class PurchasePage extends BasePage{
 			plusBtn.click();	
 			curPrice += product;
 		}			
+	}	
+	
+	// Метод, возвращаюший значение до бесплатной доставки
+	public double isFreeDelivery() {
+		if (this.read(deliveryCostBy).contains("бесплатно")) {
+			return 0;
+		} else {
+			return getPrice(freeDeliveryBy);
+		}			
 	}
 	
-	public Boolean haveFreeDelivery() {
-		return this.read(deliveryCostBy).contains("бесплатно");
-	}
 }

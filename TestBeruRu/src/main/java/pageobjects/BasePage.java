@@ -18,30 +18,26 @@ public class BasePage {
 		this.wait = wait;
 	}
 	
-    public void waitVisibility(By elementBy) {
-    	wait.until(ExpectedConditions.visibilityOfElementLocated(elementBy));
-    }
-	
 	public void click(By elementBy) {
-		waitVisibility(elementBy);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(elementBy));
 		driver.findElement(elementBy).click();
 	}
 	
-	public void enterText(By element, String str) {	
-		waitVisibility(element);
-		WebElement elem = driver.findElement(element);
+	public void enterText(By elementBy, String str) {	
+		wait.until(ExpectedConditions.visibilityOfElementLocated(elementBy));
+		WebElement elem = driver.findElement(elementBy);
 		elem.clear();
 		elem.sendKeys(str);
 	}
 	
-	public String read(By element) {
-		waitVisibility(element);
-		return driver.findElement(element).getText();
+	public String read(By elementBy) {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(elementBy));
+		return driver.findElement(elementBy).getText();
 	}
 	
-	public String getValue(By element) {
-		waitVisibility(element);
-		return driver.findElement(element).getAttribute("value");
+	public String getValue(By elementBy) {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(elementBy));
+		return driver.findElement(elementBy).getAttribute("value");
 	}
 	
 	public void scrollTo(WebElement element) {

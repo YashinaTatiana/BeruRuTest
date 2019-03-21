@@ -66,19 +66,18 @@ public class HomePage extends BasePage {
 	// Метод, возвращающий значение логина после авторизации
 	public String getLogin() {
 		Actions action = new Actions(driver);
+		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(signInBtn));
 		action.moveToElement(driver.findElement(signInBtn)).perform();
 		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(loginBy));
 		return driver.findElement(loginBy).getText();
 	}
 	
-	// Метод, изменяющий город
+	// Метод изменения названия города
 	public void changeCity(String newCity) {	
-		click(cityLinkBy);		
-			
-		waitVisibility(inputCityBy);
+		click(cityLinkBy);				
+		wait.until(ExpectedConditions.visibilityOfElementLocated(inputCityBy));
 		WebElement inputCity = driver.findElement(inputCityBy);
-		inputCity.sendKeys(newCity);
-			
+		inputCity.sendKeys(newCity);			
 		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(citiesList));
 		inputCity.sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
 		driver.findElement(submitCityBy).submit();
@@ -91,7 +90,7 @@ public class HomePage extends BasePage {
 		
 	// Переход к странице "Настройки"
 	public SettingsPage goToSettings() {
-		waitVisibility(signInBtn);
+		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(signInBtn));
 		Actions action = new Actions(driver);
 		action.moveToElement(driver.findElement(signInBtn)).perform();	
 		click(settingsBy);

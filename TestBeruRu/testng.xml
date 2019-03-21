@@ -5,7 +5,7 @@
   <parameter name = "loginParam" value = "testBeruRu@yandex.ru" />
   <parameter name = "passwordParam" value = "kulikandlake" />
   <parameter name = "newCityParam" value = "Хвалынск" />
-  <parameter name = "productParam" value = "электрические зубные щетки" />
+  <parameter name = "productParam" value = "Электрические зубные щетки" />
   <parameter name = "priceFromParam" value = "999" />
   <parameter name = "priceToParam" value = "1999" />
     <classes>    

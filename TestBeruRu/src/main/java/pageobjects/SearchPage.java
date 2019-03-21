@@ -47,15 +47,14 @@ public class SearchPage extends BasePage {
 	}
 	
 	public List<WebElement> getProductList() {
-		waitVisibility(findResultBy);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(findResultBy));
 		return driver.findElements(productsBy);
 	}
 		
 	public boolean checkPrice() {
 		double from = getPriceFrom();
-		double to = getPriceTo();
-		
-		List<WebElement> productList = getProductList();
+		double to = getPriceTo();		
+		List<WebElement> productList = getProductList();		
 		for (WebElement element : productList) {
 			double cost = Double.parseDouble(element.findElement(priceBy).getText().replaceAll("\\s",""));
 			if ((cost > to) || (cost < from)) {
@@ -65,15 +64,18 @@ public class SearchPage extends BasePage {
 		return true;
 	}
 	
-	public void buyProduct() {	
+	public Boolean buyProduct() {	
 		List<WebElement> productList = this.getProductList();
+		if (productList.size() <= 1) {
+			return false;
+		}
 		int i = productList.size() - 2;				
-		WebElement buyBtn = productList.get(i).findElement(buyBy);		
-	    scrollTo(buyBtn);
+		WebElement buyBtn = productList.get(i).findElement(buyBy);
+		scrollTo(buyBtn);
 		wait.until(ExpectedConditions.elementToBeClickable(buyBtn));
 		buyBtn.click();		
 		wait.until(ExpectedConditions.elementToBeClickable(goToBasketBy));
 		driver.findElement(goToBasketBy).click();
-		return;
+		return true;
 	}	
 }
