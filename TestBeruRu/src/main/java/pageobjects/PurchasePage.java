@@ -1,10 +1,13 @@
 package pageobjects;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 
 public class PurchasePage extends BasePage{
 	
@@ -22,6 +25,8 @@ public class PurchasePage extends BasePage{
 	private By priceBy = By.xpath("//span[text()='Итого']/following-sibling::span");	
 	// Стоимость товара с учетом скидки
 	private Double curPrice;
+	// Загрузка
+	private By byLoader = By.className("A2ZAPkIo1a");
 	
 	public PurchasePage(WebDriver driver, WebDriverWait wait) {
 		super(driver, wait);
@@ -29,7 +34,11 @@ public class PurchasePage extends BasePage{
 	
 	// Метод получения цены 
 	public double getPrice(By by) {
-		String priceStr = this.read(by).replaceAll("[^0-9]", "");
+		return getPrice(driver.findElement(by));
+	}
+	
+	public double getPrice(WebElement elem) {
+		String priceStr = read(elem).replaceAll("[^0-9]", "");
 		if (priceStr.isEmpty()) {
 			return 0;
 		} else {
@@ -41,11 +50,12 @@ public class PurchasePage extends BasePage{
 	public Boolean checkPrice() {
 		double productPrice = getPrice(productCostBy);
 		double deliveryPrice = getPrice(deliveryCostBy);
-		double discount = 0;		
-		 try { 
-			 discount = getPrice(discountBy);
-		} catch (Exception e) { };
-		 
+		double discount = 0;			
+		try {
+			WebElement discountExist = driver.findElement(discountBy); 
+			discount = getPrice(discountExist); 
+		} catch(Exception ex) {System.out.println("No discount");};
+		
 		// Цена товара с учетом скидки
 		curPrice = productPrice - discount; 		
 		double wholeSum = getPrice(priceBy);
@@ -63,6 +73,8 @@ public class PurchasePage extends BasePage{
 			plusBtn.click();	
 			curPrice += product;
 		}			
+		wait.until(ExpectedConditions.visibilityOfElementLocated(byLoader));
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(byLoader));
 	}	
 	
 	// Метод, возвращаюший значение до бесплатной доставки

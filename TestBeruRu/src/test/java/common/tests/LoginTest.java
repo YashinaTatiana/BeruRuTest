@@ -10,8 +10,8 @@ import pageobjects.SignInPage;
 
 public class LoginTest extends BaseTest {
 	
+	@Test(groups = {"LoginTest"})
 	@Parameters({"loginParam", "passwordParam"})
-	@Test(priority = 0)
 	public void validSignIn(String login, String password) {
 		System.out.println("First test");	
 		HomePage homePage = new HomePage(driver, wait);
@@ -27,11 +27,13 @@ public class LoginTest extends BaseTest {
 	
 	@Step("Проверка, что на главной странице отображается логин")
 	public void checkLogin(HomePage homePage, String login) {
-		Assert.assertEquals(homePage.getLogin(), login);		
+		Assert.assertEquals(homePage.getLogin(), login);	
+		ScreenshotMaker.makeScreenshot(driver);
 	}
 	
 	@Step("Проверка, что кнопка “Войти в аккаунт” сменилась на “Мой профиль”")
 	public void checkButtonText(HomePage homePage) {
 		Assert.assertTrue(homePage.phraseChange());
+		ScreenshotMaker.makeScreenshot(driver);
 	}
 }

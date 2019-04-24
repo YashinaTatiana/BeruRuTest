@@ -1,5 +1,7 @@
 package pageobjects;
 
+import java.util.ArrayList;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -48,7 +50,9 @@ public class HomePage extends BasePage {
 	
 	// Метод отмены всплывающего окна с рекламой
 	public void cancelWindow() {
-		driver.findElement(cancelBy).click();
+		try {
+			driver.findElement(cancelBy).click();
+		} catch (Exception e) { System.out.println("Window not found"); }
 	}
 	
 	// Метод, осуществляющий нажатие на кнопку "Войти в аккаунт"
@@ -74,17 +78,19 @@ public class HomePage extends BasePage {
 	
 	// Метод изменения названия города
 	public void changeCity(String newCity) {	
-		click(cityLinkBy);				
+		click(cityLinkBy);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(inputCityBy));
-		WebElement inputCity = driver.findElement(inputCityBy);
+		WebElement inputCity = driver.findElement(inputCityBy);				
 		inputCity.sendKeys(newCity);			
 		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(citiesList));
 		inputCity.sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
 		driver.findElement(submitCityBy).submit();
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(inputCityBy));
 	}
 		
 	// Метод, возвращающий текущий город
 	public String getCity() {
+		
 		return driver.findElement(cityLinkBy).getText();
 	}
 		
@@ -94,6 +100,11 @@ public class HomePage extends BasePage {
 		Actions action = new Actions(driver);
 		action.moveToElement(driver.findElement(signInBtn)).perform();	
 		click(settingsBy);
+		
+		ArrayList<String> handles = new ArrayList<String> (driver.getWindowHandles());
+		if (handles.size() == 2) {
+			driver.switchTo().window(handles.get(1));
+		}
 		return new SettingsPage(driver, wait);
 	}
 	

@@ -3,8 +3,10 @@ package pageobjects;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -19,14 +21,17 @@ public class SearchPage extends BasePage {
 	// Div товаров
 	private By productsBy = By.cssSelector("div.n-snippet-list div.grid-snippet");	
 	// Цена товара
-	private By priceBy = By.cssSelector("span._1u3j_pk1db.n2qB2SKKgz.AJD1X1j5bE span");
-	// Сообщение о количестве найденных товаров
-	private By findResultBy = By.className("_1PQIIOelRL");
+	private By priceBy = By.cssSelector("span._1u3j_pk1db span"); 
 	// Кнопка добавления товара в корзину
-	private By buyBy = By.cssSelector("span._2w0qPDYwej");	
+	private By buyBy = By.cssSelector("span._2w0qPDYwej");//("button._4qhIn2-ESi");	
 	// Ссылка на переход к корзине
 	private By goToBasketBy = By.xpath("//span[text()='Перейти в корзину']");
-	
+	// Кнопка "Показать еще"
+	private By byShowMoreBtn = By.cssSelector("div.n-pager-more__button.pager-loader_preload a");
+	// Спиннер 
+	private By bySpinner = By.cssSelector("div.spin.spin_js_inited.spin_progress_yes");
+	// Сообщение 'Найдено n щеток'
+	private By byFind = By.className("_1PQIIOelRL");
 	SearchPage(WebDriver driver, WebDriverWait wait) {
 		super(driver, wait);
 	}
@@ -47,16 +52,27 @@ public class SearchPage extends BasePage {
 	}
 	
 	public List<WebElement> getProductList() {
-		wait.until(ExpectedConditions.visibilityOfElementLocated(findResultBy));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(productsBy));
 		return driver.findElements(productsBy);
 	}
 		
+	
 	public boolean checkPrice() {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(byFind));
+		// click on button Show more
+		wait.until(ExpectedConditions.visibilityOfElementLocated(byShowMoreBtn));
+		wait.until(ExpectedConditions.elementToBeClickable(byShowMoreBtn));
+		click(byShowMoreBtn);	
+		// wait spinner
+		wait.until(ExpectedConditions.visibilityOfElementLocated(bySpinner));
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(bySpinner));		 
+		// check prices
 		double from = getPriceFrom();
-		double to = getPriceTo();		
+		double to = getPriceTo();	
 		List<WebElement> productList = getProductList();		
 		for (WebElement element : productList) {
 			double cost = Double.parseDouble(element.findElement(priceBy).getText().replaceAll("\\s",""));
+			System.out.println(cost);
 			if ((cost > to) || (cost < from)) {
 				return false;
 			}
@@ -67,15 +83,14 @@ public class SearchPage extends BasePage {
 	public Boolean buyProduct() {	
 		List<WebElement> productList = this.getProductList();
 		if (productList.size() <= 1) {
+			System.out.println(productList.size());
 			return false;
 		}
 		int i = productList.size() - 2;				
 		WebElement buyBtn = productList.get(i).findElement(buyBy);
 		scrollTo(buyBtn);
-		wait.until(ExpectedConditions.elementToBeClickable(buyBtn));
-		buyBtn.click();		
-		wait.until(ExpectedConditions.elementToBeClickable(goToBasketBy));
-		driver.findElement(goToBasketBy).click();
+		click(buyBtn);	
+		click(goToBasketBy);
 		return true;
 	}	
 }

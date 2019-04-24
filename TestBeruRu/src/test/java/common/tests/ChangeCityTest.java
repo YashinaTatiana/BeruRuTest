@@ -11,22 +11,14 @@ import junit.framework.Assert;
 
 public class ChangeCityTest extends BaseTest {
 	
+	@Test//(dependsOnGroups = {"LoginTest"})
 	@Parameters({"newCityParam", "loginParam", "passwordParam"})
-	@Test(priority = 1)	
 	public void changeCity(String newCity, String login, String password) {		
-		System.out.println("Second test");	
-		System.out.println("New city is " + newCity);	
 		HomePage homePage = new HomePage(driver, wait);
 		homePage.goToUrl();
 		homePage.cancelWindow();
 		// Вызов метода изменения города
 		homePage.changeCity(newCity);
-		
-		try { 
-			Thread.sleep(2000); 
-		} catch(Exception e) { 
-			System.out.println("Error");
-		}
 		
 		// Проверка, что название города изменилось
 		String currentCity = homePage.getCity();
@@ -44,11 +36,13 @@ public class ChangeCityTest extends BaseTest {
 	@Step("Проверка, что значение города изменилось")
 	public void cityHasChanged(String currentCity, String newCity) {
 		Assert.assertEquals("City name hasn't changed", currentCity.trim(), newCity.trim());
+		ScreenshotMaker.makeScreenshot(driver);
 	}
 	
 	@Step("Проверка, что после авторизации значение города в верхнем углу и города доставки совпадают")
 	public void compareCityNames(String deliveryCity, String currentCity) {
 		Assert.assertEquals("Delivery city and current city doesn't match", 
-				deliveryCity.trim(), currentCity.trim());
+							deliveryCity.trim(), currentCity.trim());
+		ScreenshotMaker.makeScreenshot(driver);
 	}
 }

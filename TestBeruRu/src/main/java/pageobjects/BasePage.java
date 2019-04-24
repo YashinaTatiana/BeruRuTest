@@ -23,6 +23,12 @@ public class BasePage {
 		driver.findElement(elementBy).click();
 	}
 	
+	public void click(WebElement element) {
+		wait.until(ExpectedConditions.visibilityOf(element));
+		wait.until(ExpectedConditions.elementToBeClickable(element));
+		element.click();
+	}
+	
 	public void enterText(By elementBy, String str) {	
 		wait.until(ExpectedConditions.visibilityOfElementLocated(elementBy));
 		WebElement elem = driver.findElement(elementBy);
@@ -32,7 +38,12 @@ public class BasePage {
 	
 	public String read(By elementBy) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(elementBy));
-		return driver.findElement(elementBy).getText();
+		return read(driver.findElement(elementBy));
+	}
+	
+	public String read(WebElement element) {
+		wait.until(ExpectedConditions.visibilityOf(element));
+		return element.getText();
 	}
 	
 	public String getValue(By elementBy) {
