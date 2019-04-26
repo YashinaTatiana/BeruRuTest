@@ -20,7 +20,8 @@ public class BasePage {
 	
 	public void click(By elementBy) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(elementBy));
-		driver.findElement(elementBy).click();
+		wait.until(ExpectedConditions.elementToBeClickable(elementBy));
+		click(driver.findElement(elementBy));
 	}
 	
 	public void click(WebElement element) {

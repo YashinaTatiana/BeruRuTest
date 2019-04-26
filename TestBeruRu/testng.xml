@@ -2,12 +2,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Example test run">
   <test name="Beru.ru test">
-  <parameter name = "loginParam" value = "testBeruRu@yandex.ru" />
-  <parameter name = "passwordParam" value = "kulikandlake" />
-  <parameter name = "newCityParam" value = "Хвалынск" />
-  <parameter name = "productParam" value = "Электрические зубные щетки" />
-  <parameter name = "priceFromParam" value = "999" />
-  <parameter name = "priceToParam" value = "1999" />
     <classes>    
       <class name = "common.tests.LoginTest"/>
       <class name = "common.tests.ChangeCityTest"/>
