@@ -24,6 +24,8 @@ public class HomePage extends BasePage {
 	private By loginBy = By.className("header2-user-menu__email");		
 	// Локатор для отмены всплывающего окна с рекламой
 	private By cancelBy = By.xpath("//div[@class='modal__cell']/div/div");
+	// Локатор для выхода
+	private By logOut = By.xpath("//a[text()='Выход']");
 	
 	// Локаторы для второго теста
 	// Ссылка на изменение города
@@ -90,7 +92,6 @@ public class HomePage extends BasePage {
 		
 	// Метод, возвращающий текущий город
 	public String getCity() {
-		
 		return driver.findElement(cityLinkBy).getText();
 	}
 		
@@ -113,6 +114,13 @@ public class HomePage extends BasePage {
 		enterText(searchBoxBy, searchValue);
 		click(searchBtnBy);
 		return new SearchPage(driver, wait);
+	}
+
+	public void logout() {
+		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(signInBtn));
+		Actions action = new Actions(driver);
+		action.moveToElement(driver.findElement(signInBtn)).perform();	
+		click(logOut);		
 	}
 	
 }

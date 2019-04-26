@@ -1,7 +1,10 @@
-package common.tests;
+package utils;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
+
+import common.tests.BaseTest;
+import utils.ScreenshotMaker;
 
 public class CustomTestListener extends TestListenerAdapter {
 	
