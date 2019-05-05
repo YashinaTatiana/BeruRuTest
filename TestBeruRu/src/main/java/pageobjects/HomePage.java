@@ -9,11 +9,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
+import io.qameta.allure.Step;
 import pageobjects.SettingsPage;
 
 import pageobjects.BasePage;
 import pageobjects.SignInPage;
+import utils.Parameters;
 import pageobjects.SearchPage;
 
 public class HomePage extends BasePage {
@@ -47,7 +50,7 @@ public class HomePage extends BasePage {
 		
 	public HomePage(WebDriver driver, WebDriverWait wait) {
 		super(driver, wait);
-		this.url = "https://beru.ru/";
+		this.url = Parameters.URL;
 	}
 	
 	// Метод отмены всплывающего окна с рекламой
@@ -118,9 +121,38 @@ public class HomePage extends BasePage {
 
 	public void logout() {
 		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(signInBtn));
-		Actions action = new Actions(driver);
-		action.moveToElement(driver.findElement(signInBtn)).perform();	
-		click(logOut);		
+		if (driver.findElement(signInBtn).getText().contains("Мой профиль")) {
+			Actions action = new Actions(driver);
+			action.moveToElement(driver.findElement(signInBtn)).perform();	
+			click(logOut);		
+		}
 	}
 	
+	@Step("Sign in")
+	public void signIn() {
+		SignInPage signInPage = clickSignInBtn();
+		signInPage.signIn(Parameters.LOGIN, Parameters.PASSWORD);
+	}
+	
+	@Step("Verify that login is displayed on the main page")
+	public void checkLogin(String login) {
+		Assert.assertEquals(getLogin(), login);	
+	}
+	
+	@Step("Checking that the \"Login to Account\" button has changed to \"My Profile\"")
+	public void checkButtonText() {
+		Assert.assertTrue(phraseChange());
+	}
+	
+	@Step("Check that the city name has changed")
+	public void checkCityHasChanged(String newCity) {
+		Assert.assertEquals(getCity().trim(), newCity.trim(), "City name hasn't changed");
+	}
+	
+	@Step("Check that after authorization the city name in the upper corner and the city of delivery match")
+	public void compareCityNames() {	
+		// Сравнение значения города в верхнем углу и города доставки
+		Assert.assertEquals(goToSettings().getDeliveryCity().trim(), getCity().trim(), 
+				"Delivery city and current city doesn't match");
+	}
 }

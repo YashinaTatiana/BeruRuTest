@@ -9,8 +9,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
+import io.qameta.allure.Step;
 import pageobjects.PurchasePage;
+import utils.Parameters;
+import utils.ScreenshotMaker;
 
 public class SearchPage extends BasePage {
 	
@@ -93,4 +97,20 @@ public class SearchPage extends BasePage {
 		click(goToBasketBy);
 		return true;
 	}	
+	
+	// Проверка того, что отображаются щетки с ценами в заданном диапазоне
+	@Step("Check that brushes are displayed with prices in the specified range")
+	public void checkPricesInRange() {
+		setPriceFrom(Parameters.PRICE_FROM);
+		setPriceTo(Parameters.PRICE_TO);
+		Assert.assertTrue(checkPrice(), "Price doesn't match");
+	}
+	
+	// Проверка того, что список содержит по крайней мере 2 элемента,
+	// т.е. существует возможность купить предпоследнюю щетку
+	@Step("Check that the list contains at least 2 elements and it possible to buy the last but one")
+	public void checkIfCanBuy() {
+		Assert.assertTrue(buyProduct(), "List length is not correct");
+	}
+	
 }

@@ -9,13 +9,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BasePage {
 	
-	public WebDriver driver;
-	public WebDriverWait wait;
+	public static WebDriver driver;
+	public static WebDriverWait wait;
 	protected String url;
 	
 	BasePage(WebDriver driver, WebDriverWait wait){
-		this.driver = driver;
-		this.wait = wait;
+		BasePage.driver = driver;
+		BasePage.wait = wait;
 	}
 	
 	public void click(By elementBy) {
@@ -53,8 +53,7 @@ public class BasePage {
 	}
 	
 	public void scrollTo(WebElement element) {
-		((JavascriptExecutor) driver).executeScript(
-            "arguments[0].scrollIntoView();", element);
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
 	}
 	
 	public String getPageTitle() {
@@ -67,5 +66,9 @@ public class BasePage {
 
 	public boolean verifyPageTitle(String pageTitle) {
 		return getPageTitle().contains(pageTitle);
+	}
+
+	public static WebDriver getDriver() {
+		return driver;
 	}
 }

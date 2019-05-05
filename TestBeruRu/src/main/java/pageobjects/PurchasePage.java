@@ -1,12 +1,14 @@
 package pageobjects;
 
-import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import io.qameta.allure.Step;
+import utils.ScreenshotMaker;
 
 
 public class PurchasePage extends BasePage{
@@ -85,5 +87,22 @@ public class PurchasePage extends BasePage{
 			return getPrice(freeDeliveryBy);
 		}			
 	}
+	
+	// Проверка значения "До бесплатной доставки осталось"
+	@Step("Checking the value \"Until free delivery left \"")
+	public void checkToFreeDelivery() {
+		Assert.assertTrue(0.0 != isFreeDelivery(), "Delivery is already free");
+	}
+		
+	@Step("Verifying Free Delivery Received")
+	public void checkIsFreeDelivery() {
+		Assert.assertEquals(0.0, isFreeDelivery(), "Delivery doesn't free");	
+	}
+	
+	// Проверка того, что итоговая цена равна <стоимость щетки> + <доставка>		
+	@Step("Check that the total price is <brush cost> + <shipping>")
+	public void checkResultPrice() {
+		Assert.assertTrue(checkPrice(), "Price doesn't correct");
+	}	
 	
 }
