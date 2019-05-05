@@ -27,7 +27,7 @@ public class SearchPage extends BasePage {
 	// Цена товара
 	private By priceBy = By.cssSelector("span._1u3j_pk1db span"); 
 	// Кнопка добавления товара в корзину
-	private By buyBy = By.cssSelector("button._4qhIn2-ESi._3OWdR9kZRH.THqSbzx07u");//("span._2w0qPDYwej");//("button._4qhIn2-ESi");	
+	private By buyBy = By.cssSelector("button._4qhIn2-ESi._3OWdR9kZRH.THqSbzx07u");	
 	// Ссылка на переход к корзине
 	private By goToBasketBy = By.xpath("//span[text()='Перейти в корзину']");
 	// Кнопка "Показать еще"
