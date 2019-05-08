@@ -9,7 +9,7 @@ import utils.Parameters;
 public class LoginTest extends BaseTest {
 	
 	@Description("Verify login functionality")
-	@Test(groups = {"LoginTest"})
+	@Test(description="Verify login functionality", groups = {"LoginTest"})
 	public void validSignIn() {
 		System.out.println("First test");	
 		HomePage homePage = new HomePage(driver, wait);

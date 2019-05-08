@@ -17,7 +17,8 @@ public class ChangeCityTest extends BaseTest {
 	}
 	
 	@Description("Check Change city functionality")
-	@Test(dependsOnGroups = {"LoginTest"}, dataProvider = "getNewCity")
+	@Test(description="Check Change city functionality", dependsOnGroups = {"LoginTest"}, 
+		dataProvider = "getNewCity")
 	public void changeCity(String newCity) {		
 		HomePage homePage = new HomePage(driver, wait);
 		homePage.goToUrl();

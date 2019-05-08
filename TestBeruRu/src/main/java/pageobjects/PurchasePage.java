@@ -29,6 +29,10 @@ public class PurchasePage extends BasePage{
 	private Double curPrice;
 	// Загрузка
 	private By byLoader = By.className("A2ZAPkIo1a");
+
+	public static double productPrice;
+	public static double deliveryPrice;
+	public static double discount;
 	
 	public PurchasePage(WebDriver driver, WebDriverWait wait) {
 		super(driver, wait);
@@ -47,21 +51,14 @@ public class PurchasePage extends BasePage{
 			return Double.parseDouble(priceStr);
 		}
 	}
+
 	
 	// Метод, проверяющий, что итоговая цена равна <стоимость щетки> + <доставка>
-	public Boolean checkPrice() {
-		double productPrice = getPrice(productCostBy);
-		double deliveryPrice = getPrice(deliveryCostBy);
-		double discount = 0;			
-		try {
-			WebElement discountExist = driver.findElement(discountBy); 
-			discount = getPrice(discountExist); 
-		} catch(Exception ex) {System.out.println("No discount");};
-		
-		// Цена товара с учетом скидки
+	@Step("Check prices")
+	public void checkPrice(double productPrice, double deliveryPrice, double discount) {
 		curPrice = productPrice - discount; 		
 		double wholeSum = getPrice(priceBy);
-		return wholeSum ==  (deliveryPrice + curPrice);
+		Assert.assertTrue( wholeSum ==  (deliveryPrice + curPrice), "Price doesn't correct");
 	}
 	
 	// Метод добавления щеток, необходимых до бесплатной доставки
@@ -99,10 +96,16 @@ public class PurchasePage extends BasePage{
 		Assert.assertEquals(0.0, isFreeDelivery(), "Delivery doesn't free");	
 	}
 	
-	// Проверка того, что итоговая цена равна <стоимость щетки> + <доставка>		
-	@Step("Check that the total price is <brush cost> + <shipping>")
-	public void checkResultPrice() {
-		Assert.assertTrue(checkPrice(), "Price doesn't correct");
+	// Проверка того, что итоговая цена равна <стоимость щетки> + <доставка>	
+	@Step("Get prices")
+	public void getPrices() {
+		productPrice = getPrice(productCostBy);
+		deliveryPrice = getPrice(deliveryCostBy);
+		discount = 0;			
+		try {
+			WebElement discountExist = driver.findElement(discountBy); 
+			discount = getPrice(discountExist); 
+		} catch(Exception ex) {System.out.println("No discount");};
 	}	
 	
 }

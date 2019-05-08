@@ -10,7 +10,7 @@ import utils.Parameters;
 
 public class BuyTest extends BaseTest {
 
-	@Test
+	@Test(description="Check buy product functionality")
 	@Description("Check buy product functionality")
 	public void buyElem() {
 		HomePage homePage = new HomePage(driver, wait);
@@ -22,11 +22,15 @@ public class BuyTest extends BaseTest {
 		searchPage.checkIfCanBuy();
 		PurchasePage purchasePage = new PurchasePage(driver, wait);		
 		purchasePage.checkToFreeDelivery();
-		purchasePage.checkResultPrice();			
+		purchasePage.getPrices();
+		purchasePage.checkPrice(purchasePage.productPrice, 
+				purchasePage.deliveryPrice, purchasePage.discount);			
 		// Увеличение количества щеток
 		purchasePage.addProducts(Parameters.PRICE_TO);		
 		purchasePage.checkIsFreeDelivery();
-		purchasePage.checkResultPrice();
+		purchasePage.getPrices();
+		purchasePage.checkPrice(purchasePage.productPrice, 
+				purchasePage.deliveryPrice, purchasePage.discount);	
 	}
 
 }
