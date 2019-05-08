@@ -98,11 +98,15 @@ public class SearchPage extends BasePage {
 		return true;
 	}	
 	
+	@Step("Input price limits")
+	public void inputPriceLimits() {
+		setPriceFrom(Parameters.PRICE_FROM);
+		setPriceTo(Parameters.PRICE_TO);
+	}
+	
 	// Проверка того, что отображаются щетки с ценами в заданном диапазоне
 	@Step("Check that brushes are displayed with prices in the specified range")
 	public void checkPricesInRange() {
-		setPriceFrom(Parameters.PRICE_FROM);
-		setPriceTo(Parameters.PRICE_TO);
 		Assert.assertTrue(checkPrice(), "Price doesn't match");
 	}
 	

@@ -17,6 +17,7 @@ public class BuyTest extends BaseTest {
 		homePage.goToUrl();
 		homePage.cancelWindow();	
 		SearchPage searchPage = homePage.search(Parameters.PRODUCT);
+		searchPage.inputPriceLimits();
 		searchPage.checkPricesInRange();
 		searchPage.checkIfCanBuy();
 		PurchasePage purchasePage = new PurchasePage(driver, wait);		

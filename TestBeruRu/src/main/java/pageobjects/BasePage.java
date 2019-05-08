@@ -56,6 +56,11 @@ public class BasePage {
 		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
 	}
 	
+	public void scrollTo(By by) {
+		WebElement element = driver.findElement(by);
+		scrollTo(element);
+	}
+	
 	public String getPageTitle() {
 		return driver.getTitle();
 	}
